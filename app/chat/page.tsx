@@ -114,7 +114,7 @@ export default function ChatPage() {
     const content = input.trim()
     setInput("")
 
-    const { data, error } = await supabase
+    const {  error } = await supabase
       .from("messages")
       .insert({
         sender_id: currentUser.id,
@@ -130,9 +130,7 @@ export default function ChatPage() {
       return
     }
 
-    if (data) {
-      setMessages((prev) => [...prev, data])
-    }
+    
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
