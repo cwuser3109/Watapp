@@ -76,7 +76,7 @@ export default function ChatPage() {
 
     // Real-time subscription
     const channel = supabase
-      .channel("messages-${currentuser.id}-${user.id}")
+      .channel(`messages-${currentUser.id}-${selectedUser.id}`)
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "messages" },
@@ -87,7 +87,10 @@ export default function ChatPage() {
           (msg.sender_id===selectedUser.id && msg.receiver_id===currentUser.id)
 
           if (isRelevant) {
-            setMessages((prev) => [...prev, msg])
+            setMessages((prev) => {
+              if (prev.some((m) => m.id === msg.id)) return prev
+                return [...prev, msg]
+          })
           }
           // const isFromOtherUser =
           //   msg.sender_id === selectedUser.id && msg.receiver_id === currentUser.id
