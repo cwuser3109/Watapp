@@ -82,11 +82,18 @@ export default function ChatPage() {
         { event: "INSERT", schema: "public", table: "messages" },
         (payload) => {
           const msg = payload.new as Message
-          const isFromOtherUser =
-            msg.sender_id === selectedUser.id && msg.receiver_id === currentUser.id
-          if (isFromOtherUser) {
+
+          const isRelevant = (msg.sender_id===currentUser.id && msg.receiver_id===selectedUser.id) ||
+          (msg.sender_id===selectedUser.id && msg.receiver_id===currentUser.id)
+
+          if (isRelevant) {
             setMessages((prev) => [...prev, msg])
           }
+          // const isFromOtherUser =
+          //   msg.sender_id === selectedUser.id && msg.receiver_id === currentUser.id
+          // if (isFromOtherUser) {
+          //   setMessages((prev) => [...prev, msg])
+          // }
         }
       )
       .subscribe()
