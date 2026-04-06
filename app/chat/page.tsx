@@ -76,7 +76,7 @@ export default function ChatPage() {
 
     // Real-time subscription
     const channel = supabase
-      .channel("messages-channel")
+      .channel("messages-${currentuser.id}-${user.id}")
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "messages" },
